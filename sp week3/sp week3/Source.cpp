@@ -4,6 +4,7 @@
 #include <thread>         // std::this_thread::sleep_for
 #include <chrono>         // std::chrono::seconds
 #include "math.h"
+#include<time.h>
 
 const int width = 640;
 const int height = 480;
@@ -19,6 +20,19 @@ void drawPixel(const int& i, const int& j, const float& red, const float& green,
 
 // scratched from https://courses.engr.illinois.edu/ece390/archive/archive-f2000/mp/mp4/anti.html
 // see 'Rasterization' part.
+void drawcircle(const int&i0 , const int& j0, const float& red, const float& green, const float& blue)
+{
+	
+	int r =50;
+	for (int i = i0-r; i <= i0+r; i++)
+		for (int j = j0-r; j <= j0+r;j++)
+	{
+		int circle = (i - i0)*(i - i0) + (j - j0)*(j - j0) - r*r;
+		if (circle == 0) {
+			drawPixel(i, j, red, green, blue);
+		}
+	}
+}
 void drawLine(const int& i0, const int& j0, const int& i1, const int& j1, const float& red, const float& green, const float& blue)
 {
 	for (int i = i0; i <= i1; i++)
@@ -45,10 +59,16 @@ void drawOnPixelBuffer()
 
 	// drawing a line
 	//TODO: anti-aliasing
-	const int i0 = 100, i1 = 200;
-	const int j0 = 50, j1 = 80;
-	drawLine(i0, j0, i1, j1, 1.0f, 0.0f, 0.0f);
 
+	/*const int i0 = 100, i1 = 200,i2=150;
+	const int j0 = 50, j1 = 50,j2=150;
+	drawLine(i0, j0, i1, j1, 1.0f, 0.0f, 0.0f);
+	drawLine(i2, j2, i1, j1, 1.0f, 0.0f, 0.0f);
+	drawLine(i0, j0, i2, j2, 1.0f, 0.0f, 0.0f);*/
+	
+	const double i0 = 100, j0 = 100;
+
+	drawcircle(i0, j0, 0.0f, 0.0f, 0.0f);
 	//TODO: try moving object
 }
 
@@ -57,7 +77,7 @@ int main(void)
 	GLFWwindow* window;
 
 	/* Initialize the library */
-	if (!glfwInit())
+	if (!glfwInit()) 
 		return -1;
 
 	/* Create a windowed mode window and its OpenGL context */
